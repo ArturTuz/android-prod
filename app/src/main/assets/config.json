@@ -1,0 +1,45 @@
+
+[
+    {
+        "type": 0,
+        "title": "Conversation iFrame",
+        "values": [
+            {
+                "type": 1,
+                "title": "Spot Id"
+            },
+            {
+                "type": 1,
+                "title": "Post Id"
+            },
+            {
+                "type": 1,
+                "title": "iFrame URL Holder"
+            }
+        ]
+    },
+    {
+        "type": 0,
+        "title": "Conversation",
+        "values": [
+            {
+                "type": 1,
+                "title": "Spot Id"
+            },
+            {
+                "type": 1,
+                "title": "Post Id"
+            }
+        ]
+    },
+    {
+        "type": 0,
+        "title": "Recirculation",
+        "values": [
+            {
+                "type": 1,
+                "title": "Spot Id"
+            }
+        ]
+    }
+]

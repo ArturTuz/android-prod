@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.spot.im.qaapp.MainActivity">
+    <android.support.v7.widget.Toolbar
+        android:layout_height="wrap_content"
+        android:id="@+id/spotToolbar"
+        android:layout_width="match_parent"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+        <LinearLayout
+            android:weightSum="20"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <TabHost
+                android:layout_weight="16"
+                android:id="@+id/tabHost"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TabWidget
+                        android:id="@android:id/tabs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <FrameLayout
+                        android:id="@android:id/tabcontent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:id="@+id/tab1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#ffc916"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="Staging" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/tab2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#da8200"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="Production" />
+                        </LinearLayout>
+                    </FrameLayout>
+                </LinearLayout>
+            </TabHost>
+            <Button
+                android:layout_weight="4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/loadButton"
+                android:text="Load"/>
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/configurationRecycler"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+</android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

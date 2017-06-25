@@ -1,0 +1,10 @@
+include ':app'
+
+include ':core'
+project(':core').projectDir=new File('../spotim-android-sdk/core')
+
+include ':recirculation'
+project(':recirculation').projectDir=new File('../spotim-android-sdk/recirculation')
+
+include ':web-sdk'
+project(':web-sdk').projectDir=new File('../spotim-android-sdk/web-sdk')
