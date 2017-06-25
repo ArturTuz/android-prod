@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 
+import im.spot.sdk.OnConversationReadyListener;
 import im.spot.sdk.SpotImWeb;
 import spot.im.core.SpotIM;
 
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 int index = ((InputAdapter)mRecyclerView.getAdapter()).getIndex();
 
                 if (index > -1) {
-                    Bundle bundle = new Bundle();
+                    final Bundle bundle = new Bundle();
                     bundle.putString("spotId", fetchValue(index + 1));
                     switch (index) {
                         case 0:
@@ -72,14 +73,21 @@ public class MainActivity extends AppCompatActivity {
                         case 1:
                             bundle.putString("postId", fetchValue(index + 2));
                             SpotImWeb.getInstance().init(MainActivity.this, fetchValue(index + 1), fetchValue(index + 2), true);
+                            SpotImWeb.getInstance().setOnConversationReadyListener(new OnConversationReadyListener() {
+                                @Override
+                                public void onConversationReady() {
+                                    SpotImWeb.getInstance().setOnConversationReadyListener(null);
+                                    bundle.putBoolean("isStaging", mStateTab.getCurrentTab() == 0);
+                                    Intent spotIntent = new Intent(MainActivity.this, SpotIMActivity.class);
+                                    spotIntent.putExtra("spotParams", bundle);
+                                    startActivity(spotIntent);
+                                }
+                            });
                             break;
                     }
 
 
-                    bundle.putBoolean("isStaging", mStateTab.getCurrentTab() == 0);
-                    Intent spotIntent = new Intent(MainActivity.this, SpotIMActivity.class);
-                    spotIntent.putExtra("spotParams", bundle);
-                    startActivity(spotIntent);
+
                 }
 
             }
