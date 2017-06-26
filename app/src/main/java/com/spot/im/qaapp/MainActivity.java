@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int index = ((InputAdapter)mRecyclerView.getAdapter()).getIndex();
+                final int index = ((InputAdapter)mRecyclerView.getAdapter()).getIndex();
 
                 if (index > -1) {
                     final Bundle bundle = new Bundle();
@@ -72,11 +72,12 @@ public class MainActivity extends AppCompatActivity {
                             bundle.putString("customURL", fetchValue(index + 3));
                         case 1:
                             bundle.putString("postId", fetchValue(index + 2));
-                            SpotImWeb.getInstance().init(MainActivity.this, fetchValue(index + 1), fetchValue(index + 2), true);
+                            SpotImWeb.getInstance().init(MainActivity.this, fetchValue(index + 1), true);
                             SpotImWeb.getInstance().setOnConversationReadyListener(new OnConversationReadyListener() {
                                 @Override
                                 public void onConversationReady() {
                                     SpotImWeb.getInstance().setOnConversationReadyListener(null);
+                                    SpotImWeb.getInstance().setPostId(fetchValue(index + 2), MainActivity.this);
                                     bundle.putBoolean("isStaging", mStateTab.getCurrentTab() == 0);
                                     Intent spotIntent = new Intent(MainActivity.this, SpotIMActivity.class);
                                     spotIntent.putExtra("spotParams", bundle);
