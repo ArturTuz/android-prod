@@ -2,6 +2,8 @@ package com.spot.im.qaapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -25,7 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 
+import im.spot.sdk.ConversationFragment;
 import im.spot.sdk.OnConversationReadyListener;
+import im.spot.sdk.SpotConversation;
 import im.spot.sdk.SpotImWeb;
 import spot.im.core.SpotIM;
 
@@ -67,23 +72,31 @@ public class MainActivity extends AppCompatActivity {
                 if (index > -1) {
                     final Bundle bundle = new Bundle();
                     bundle.putString("spotId", fetchValue(index + 1));
+                    SpotConversation.getInstance(MainActivity.this).setStaging(true);
+                    SpotConversation.getInstance(MainActivity.this).preload("sp_JRGmW7Ab", "42");
                     switch (index) {
                         case 0:
                             bundle.putString("customURL", fetchValue(index + 3));
-                        case 1:
                             bundle.putString("postId", fetchValue(index + 2));
-                            SpotImWeb.getInstance().init(MainActivity.this, fetchValue(index + 1), true);
-                            SpotImWeb.getInstance().setOnConversationReadyListener(new OnConversationReadyListener() {
+                            Intent spotIntent = new Intent(MainActivity.this, SpotIMActivity.class);
+                            spotIntent.putExtra("spotParams", bundle);
+                            startActivity(spotIntent);
+
+                            break;
+                        case 1:
+//                            ConversationFragment fragment = ConversationFragment.newInstance("sp_JRGmW7Ab", "42");//fetchValue(index + 1), fetchValue(index + 2));
+                            SpotConversation.getInstance(MainActivity.this).setOnReadyListener(new SpotConversation.OnReadyListener() {
                                 @Override
                                 public void onConversationReady() {
-                                    SpotImWeb.getInstance().setOnConversationReadyListener(null);
-                                    SpotImWeb.getInstance().setPostId(fetchValue(index + 2), MainActivity.this);
-                                    bundle.putBoolean("isStaging", mStateTab.getCurrentTab() == 0);
-                                    Intent spotIntent = new Intent(MainActivity.this, SpotIMActivity.class);
-                                    spotIntent.putExtra("spotParams", bundle);
-                                    startActivity(spotIntent);
+                                    ConversationFragment fragment = new ConversationFragment();
+                                    FragmentManager fragmentManager = getSupportFragmentManager();
+                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                    fragmentTransaction.setCustomAnimations(im.spot.sdk.R.anim.enter_from_right, im.spot.sdk.R.anim.exit_to_left, im.spot.sdk.R.anim.enter_from_left, im.spot.sdk.R.anim.exit_to_right);
+                                    fragmentTransaction.add(R.id.conversationHolder, fragment).addToBackStack(null);
+                                    fragmentTransaction.commit();
                                 }
                             });
+
                             break;
                     }
 
@@ -95,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
     private String fetchValue(int index) {
         return  ((InputViewHolder) mRecyclerView.findViewHolderForAdapterPosition(index)).getValue();

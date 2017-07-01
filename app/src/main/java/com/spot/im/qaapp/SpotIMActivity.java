@@ -2,14 +2,19 @@ package com.spot.im.qaapp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import im.spot.sdk.ConversationFragment;
 import im.spot.sdk.ConversationIFrameListener;
 import im.spot.sdk.SpotConversationFragment;
 import im.spot.sdk.SpotConversationIFrameHandler;
@@ -31,14 +36,26 @@ public class SpotIMActivity extends AppCompatActivity {
         webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
         WebViewClient client = new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                return super.shouldOverrideUrlLoading(view, url);
+            private boolean shouldOverrideUrl(WebView webView, Uri url) {
+                if (url.getScheme().equals("conversational")) {
+                    return true;
+                }
+                return false;
             }
 
+
+
+
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return shouldOverrideUrl(view, Uri.parse(url));
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                return super.shouldOverrideUrlLoading(view, request);
+                return shouldOverrideUrl(view, request.getUrl());
             }
 
         };
@@ -48,7 +65,7 @@ public class SpotIMActivity extends AppCompatActivity {
         handler.setSpotIFrameWebview(webView);
         handler.setListener(new ConversationIFrameListener() {
             @Override
-            public void shouldLoadConversation(SpotConversationFragment fragment) {
+            public void shouldLoadConversation(ConversationFragment fragment) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.add(R.id.spotIM_Holder, fragment).addToBackStack(null);
@@ -65,10 +82,4 @@ public class SpotIMActivity extends AppCompatActivity {
         webView.loadUrl(url);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (!SpotImWeb.getInstance().goBack()) {
-            super.onBackPressed();
-        }
-    }
 }
