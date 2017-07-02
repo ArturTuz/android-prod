@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         if (index > -1) {
             final Bundle bundle = new Bundle();
             bundle.putString("spotId", fetchValue(index + 1));
-            SpotConversation.getInstance(MainActivity.this).setStaging(true);
+            SpotConversation.getInstance(MainActivity.this).setStaging(mStateTab.getCurrentTab() == 0);
             SpotConversation.getInstance(MainActivity.this).preload(fetchValue(index + 1), fetchValue(index + 2));
 //            if (shouldLogin) {
 //                SpotConversation.getInstance(MainActivity.this).startSSO(new SSOHandler() {
