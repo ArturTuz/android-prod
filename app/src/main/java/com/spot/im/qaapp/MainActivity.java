@@ -8,15 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TabHost;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,18 +22,19 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.BrokenBarrierException;
+
 
 import im.spot.sdk.ConversationFragment;
-import im.spot.sdk.OnConversationReadyListener;
+import im.spot.sdk.SSO.OnSSOComplete;
+import im.spot.sdk.SSO.SSOError;
+import im.spot.sdk.SSO.SSOHandler;
 import im.spot.sdk.SpotConversation;
-import im.spot.sdk.SpotImWeb;
-import spot.im.core.SpotIM;
+
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private TabHost mStateTab;
+    private Button mLoadButton;
 
 
     @Override
@@ -63,50 +61,91 @@ public class MainActivity extends AppCompatActivity {
         spec.setIndicator("Production");
         mStateTab.addTab(spec);
 
-        Button loadButton = (Button) findViewById(R.id.loadButton);
-        loadButton.setOnClickListener(new View.OnClickListener() {
+        mLoadButton = (Button) findViewById(R.id.loadButton);
+        mLoadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final int index = ((InputAdapter)mRecyclerView.getAdapter()).getIndex();
-
-                if (index > -1) {
-                    final Bundle bundle = new Bundle();
-                    bundle.putString("spotId", fetchValue(index + 1));
-                    SpotConversation.getInstance(MainActivity.this).setStaging(true);
-                    SpotConversation.getInstance(MainActivity.this).preload("sp_JRGmW7Ab", "42");
-                    switch (index) {
-                        case 0:
-                            bundle.putString("customURL", fetchValue(index + 3));
-                            bundle.putString("postId", fetchValue(index + 2));
-                            Intent spotIntent = new Intent(MainActivity.this, SpotIMActivity.class);
-                            spotIntent.putExtra("spotParams", bundle);
-                            startActivity(spotIntent);
-
-                            break;
-                        case 1:
-//                            ConversationFragment fragment = ConversationFragment.newInstance("sp_JRGmW7Ab", "42");//fetchValue(index + 1), fetchValue(index + 2));
-                            SpotConversation.getInstance(MainActivity.this).setOnReadyListener(new SpotConversation.OnReadyListener() {
-                                @Override
-                                public void onConversationReady() {
-                                    ConversationFragment fragment = new ConversationFragment();
-                                    FragmentManager fragmentManager = getSupportFragmentManager();
-                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                    fragmentTransaction.setCustomAnimations(im.spot.sdk.R.anim.enter_from_right, im.spot.sdk.R.anim.exit_to_left, im.spot.sdk.R.anim.enter_from_left, im.spot.sdk.R.anim.exit_to_right);
-                                    fragmentTransaction.add(R.id.conversationHolder, fragment).addToBackStack(null);
-                                    fragmentTransaction.commit();
-                                }
-                            });
-
-                            break;
-                    }
-
-
-
+                if (mLoadButton.getText().equals("Logout")) {
+                    SpotConversation.getInstance(MainActivity.this).logout(new OnSSOComplete() {
+                        @Override
+                        public void onSSOStateChanged(SSOError error) {
+                            if (error == null) {
+                                mLoadButton.setText("Load");
+                                loadConversation(false);
+                            }
+                        }
+                    });
+                } else {
+                    loadConversation(true);
                 }
 
             }
         });
 
+    }
+
+    private void loadConversation(boolean shouldLogin) {
+        final int index = ((InputAdapter)mRecyclerView.getAdapter()).getIndex();
+
+        if (index > -1) {
+            final Bundle bundle = new Bundle();
+            bundle.putString("spotId", fetchValue(index + 1));
+            SpotConversation.getInstance(MainActivity.this).setStaging(true);
+            SpotConversation.getInstance(MainActivity.this).preload("sp_vakfwchF", "42");
+            if (shouldLogin) {
+                SpotConversation.getInstance(MainActivity.this).startSSO(new SSOHandler() {
+                    @Override
+                    public void onFetchedCodeA(String codeA, SSOError error) {
+                        if (codeA == null && error == null) {
+                            mLoadButton.setText("Logout");
+                        }
+                        if (codeA != null) {
+                            CodeBFetcher.fetch("http://172.20.10.6:3000/getCodeB?codeA=" + codeA, new CodeBFetcher.Listener() {
+                                @Override
+                                public void onCodeB(String codeB) {
+                                    SpotConversation.getInstance(MainActivity.this).completeSSO(codeB, new OnSSOComplete() {
+                                        @Override
+                                        public void onSSOStateChanged(SSOError error) {
+                                            if (error == null) {
+                                                mLoadButton.setText("Logout");
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+            switch (index) {
+                case 0:
+                    bundle.putString("customURL", fetchValue(index + 3));
+                    bundle.putString("postId", fetchValue(index + 2));
+                    Intent spotIntent = new Intent(MainActivity.this, SpotIMActivity.class);
+                    spotIntent.putExtra("spotParams", bundle);
+                    startActivity(spotIntent);
+
+                    break;
+                case 1:
+//                            ConversationFragment fragment = ConversationFragment.newInstance("sp_JRGmW7Ab", "42");//fetchValue(index + 1), fetchValue(index + 2));
+                    SpotConversation.getInstance(MainActivity.this).setOnReadyListener(new SpotConversation.OnReadyListener() {
+                        @Override
+                        public void onConversationReady() {
+                            ConversationFragment fragment = new ConversationFragment();
+                            FragmentManager fragmentManager = getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.setCustomAnimations(im.spot.sdk.R.anim.enter_from_right, im.spot.sdk.R.anim.exit_to_left, im.spot.sdk.R.anim.enter_from_left, im.spot.sdk.R.anim.exit_to_right);
+                            fragmentTransaction.add(R.id.conversationHolder, fragment).addToBackStack(null);
+                            fragmentTransaction.commit();
+                        }
+                    });
+
+                    break;
+            }
+
+
+
+        }
     }
 
 

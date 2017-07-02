@@ -72,12 +72,14 @@
                     </FrameLayout>
                 </LinearLayout>
             </TabHost>
+
             <Button
-                android:layout_weight="4"
+                android:id="@+id/loadButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:id="@+id/loadButton"
-                android:text="Load"/>
+                android:layout_weight="4"
+                android:text="Load"
+                android:textAllCaps="false"/>
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
