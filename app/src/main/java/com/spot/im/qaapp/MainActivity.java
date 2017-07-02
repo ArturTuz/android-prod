@@ -25,9 +25,9 @@ import java.util.ArrayList;
 
 
 import im.spot.sdk.ConversationFragment;
-import im.spot.sdk.SSO.OnSSOComplete;
-import im.spot.sdk.SSO.SSOError;
-import im.spot.sdk.SSO.SSOHandler;
+//import im.spot.sdk.SSO.OnSSOComplete;
+//import im.spot.sdk.SSO.SSOError;
+//import im.spot.sdk.SSO.SSOHandler;
 import im.spot.sdk.SpotConversation;
 
 
@@ -65,20 +65,20 @@ public class MainActivity extends AppCompatActivity {
         mLoadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mLoadButton.getText().equals("Logout")) {
-                    SpotConversation.getInstance(MainActivity.this).logout(new OnSSOComplete() {
-                        @Override
-                        public void onSSOStateChanged(SSOError error) {
-                            if (error == null) {
-                                mLoadButton.setText("Load");
-                                loadConversation(false);
-                            }
-                        }
-                    });
-                } else {
-                    loadConversation(true);
-                }
-
+//                if (mLoadButton.getText().equals("Logout")) {
+//                    SpotConversation.getInstance(MainActivity.this).logout(new OnSSOComplete() {
+//                        @Override
+//                        public void onSSOStateChanged(SSOError error) {
+//                            if (error == null) {
+//                                mLoadButton.setText("Load");
+//                                loadConversation(false);
+//                            }
+//                        }
+//                    });
+//                } else {
+//                    loadConversation(true);
+//                }
+                loadConversation(false);
             }
         });
 
@@ -91,32 +91,32 @@ public class MainActivity extends AppCompatActivity {
             final Bundle bundle = new Bundle();
             bundle.putString("spotId", fetchValue(index + 1));
             SpotConversation.getInstance(MainActivity.this).setStaging(true);
-            SpotConversation.getInstance(MainActivity.this).preload("sp_vakfwchF", "42");
-            if (shouldLogin) {
-                SpotConversation.getInstance(MainActivity.this).startSSO(new SSOHandler() {
-                    @Override
-                    public void onFetchedCodeA(String codeA, SSOError error) {
-                        if (codeA == null && error == null) {
-                            mLoadButton.setText("Logout");
-                        }
-                        if (codeA != null) {
-                            CodeBFetcher.fetch("http://172.20.10.6:3000/getCodeB?codeA=" + codeA, new CodeBFetcher.Listener() {
-                                @Override
-                                public void onCodeB(String codeB) {
-                                    SpotConversation.getInstance(MainActivity.this).completeSSO(codeB, new OnSSOComplete() {
-                                        @Override
-                                        public void onSSOStateChanged(SSOError error) {
-                                            if (error == null) {
-                                                mLoadButton.setText("Logout");
-                                            }
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    }
-                });
-            }
+            SpotConversation.getInstance(MainActivity.this).preload(fetchValue(index + 1), fetchValue(index + 2));
+//            if (shouldLogin) {
+//                SpotConversation.getInstance(MainActivity.this).startSSO(new SSOHandler() {
+//                    @Override
+//                    public void onFetchedCodeA(String codeA, SSOError error) {
+//                        if (codeA == null && error == null) {
+//                            mLoadButton.setText("Logout");
+//                        }
+//                        if (codeA != null) {
+//                            CodeBFetcher.fetch("http://172.20.10.6:3000/getCodeB?codeA=" + codeA, new CodeBFetcher.Listener() {
+//                                @Override
+//                                public void onCodeB(String codeB) {
+//                                    SpotConversation.getInstance(MainActivity.this).completeSSO(codeB, new OnSSOComplete() {
+//                                        @Override
+//                                        public void onSSOStateChanged(SSOError error) {
+//                                            if (error == null) {
+//                                                mLoadButton.setText("Logout");
+//                                            }
+//                                        }
+//                                    });
+//                                }
+//                            });
+//                        }
+//                    }
+//                });
+//            }
             switch (index) {
                 case 0:
                     bundle.putString("customURL", fetchValue(index + 3));
