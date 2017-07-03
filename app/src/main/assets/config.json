@@ -40,15 +40,5 @@
                 "title": "SSO Local IP"
             }
         ]
-    },
-    {
-        "type": 0,
-        "title": "Recirculation",
-        "values": [
-            {
-                "type": 1,
-                "title": "Spot Id"
-            }
-        ]
     }
 ]
