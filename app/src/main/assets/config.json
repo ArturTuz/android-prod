@@ -15,7 +15,12 @@
             {
                 "type": 1,
                 "title": "iFrame URL Holder"
+            },
+            {
+                "type": 1,
+                "title": "SSO Local IP"
             }
+
         ]
     },
     {
@@ -29,6 +34,10 @@
             {
                 "type": 1,
                 "title": "Post Id"
+            },
+            {
+                "type": 1,
+                "title": "SSO Local IP"
             }
         ]
     },
