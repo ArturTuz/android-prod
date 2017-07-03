@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SpotConversation.initConversation(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.configurationRecycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(new InputAdapter(this));
@@ -68,12 +69,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mLoadButton.getText().equals("Logout")) {
-                    SpotConversation.getInstance(MainActivity.this).logout(new OnSSOComplete() {
+                    SpotConversation.getInstance().logout(new OnSSOComplete() {
                         @Override
                         public void onSSOStateChanged(SSOError error) {
                             if (error == null) {
                                 mLoadButton.setText("Load");
-                                loadConversation(false);
+                                presentConversation();
                             }
                         }
                     });
@@ -91,10 +92,10 @@ public class MainActivity extends AppCompatActivity {
         if (index > -1) {
             final Bundle bundle = new Bundle();
             bundle.putString("spotId", fetchValue(index + 1));
-            SpotConversation.getInstance(MainActivity.this).setStaging(mStateTab.getCurrentTab() == 0);
-            SpotConversation.getInstance(MainActivity.this).preload(fetchValue(index + 1), fetchValue(index + 2));
+            SpotConversation.getInstance().setStaging(mStateTab.getCurrentTab() == 0);
+            SpotConversation.getInstance().preload(fetchValue(index + 1), fetchValue(index + 2));
             if (shouldLogin) {
-                SpotConversation.getInstance(MainActivity.this).startSSO(new SSOHandler() {
+                SpotConversation.getInstance().startSSO(new SSOHandler() {
                     @Override
                     public void onFetchedCodeA(String codeA, SSOError error) {
                         if (codeA == null && error == null) {
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                             CodeBFetcher.fetch("http://" + ip + ":3000/getCodeB?codeA=" + codeA, new CodeBFetcher.Listener() {
                                 @Override
                                 public void onCodeB(String codeB) {
-                                    SpotConversation.getInstance(MainActivity.this).completeSSO(codeB, new OnSSOComplete() {
+                                    SpotConversation.getInstance().completeSSO(codeB, new OnSSOComplete() {
                                         @Override
                                         public void onSSOStateChanged(SSOError error) {
                                             if (error == null) {
@@ -134,15 +135,10 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
 //                            ConversationFragment fragment = ConversationFragment.newInstance("sp_JRGmW7Ab", "42");//fetchValue(index + 1), fetchValue(index + 2));
                     ssoIP = fetchValue(index + 3);
-                    SpotConversation.getInstance(MainActivity.this).setOnReadyListener(new SpotConversation.OnReadyListener() {
+                    SpotConversation.getInstance().setOnReadyListener(new SpotConversation.OnReadyListener() {
                         @Override
                         public void onConversationReady() {
-                            ConversationFragment fragment = new ConversationFragment();
-                            FragmentManager fragmentManager = getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.setCustomAnimations(im.spot.sdk.R.anim.enter_from_right, im.spot.sdk.R.anim.exit_to_left, im.spot.sdk.R.anim.enter_from_left, im.spot.sdk.R.anim.exit_to_right);
-                            fragmentTransaction.add(R.id.conversationHolder, fragment).addToBackStack(null);
-                            fragmentTransaction.commit();
+                            presentConversation();
                         }
                     });
 
@@ -153,6 +149,16 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+    private void presentConversation() {
+        ConversationFragment fragment = new ConversationFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(im.spot.sdk.R.anim.enter_from_right, im.spot.sdk.R.anim.exit_to_left, im.spot.sdk.R.anim.enter_from_left, im.spot.sdk.R.anim.exit_to_right);
+        fragmentTransaction.add(R.id.conversationHolder, fragment).addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
 
 
     private String fetchValue(int index) {
