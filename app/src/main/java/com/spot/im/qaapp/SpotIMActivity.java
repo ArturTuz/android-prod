@@ -36,26 +36,13 @@ public class SpotIMActivity extends AppCompatActivity {
         webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
         WebViewClient client = new WebViewClient() {
-            private boolean shouldOverrideUrl(WebView webView, Uri url) {
-                if (url.getScheme().equals("conversational")) {
-                    return true;
-                }
-                return false;
-            }
-
 
 
 
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                return shouldOverrideUrl(view, Uri.parse(url));
-            }
-
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                return shouldOverrideUrl(view, request.getUrl());
+                return url.startsWith("conversational");
             }
 
         };
@@ -73,6 +60,7 @@ public class SpotIMActivity extends AppCompatActivity {
             }
         });
         String url = "http://ec2-54-245-13-126.us-west-2.compute.amazonaws.com/SpotIMTest.html";
+//        String url = "http://ww.google.com";
 //        String url = "http://10.0.0.8/conversational/SpotIMTest.html";
         Bundle bundle = getIntent().getBundleExtra("spotParams");
         if (bundle != null && bundle.getString("customURL") != null && bundle.getString("customURL").length() > 0) {
