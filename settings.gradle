@@ -6,5 +6,5 @@ include ':app'
 //include ':recirculation'
 //project(':recirculation').projectDir=new File('../spotim-android-sdk/recirculation')
 
-//include ':web-sdk'
-//project(':web-sdk').projectDir=new File('../spotim-android-sdk/web-sdk')
+include ':web-sdk'
+project(':web-sdk').projectDir=new File('../spotim-android-sdk/web-sdk')

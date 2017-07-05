@@ -2,6 +2,7 @@ package com.spot.im.qaapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    loadConversation(true);
+                    loadConversation(false);
                 }
             }
         });
@@ -106,16 +107,16 @@ public class MainActivity extends AppCompatActivity {
                             CodeBFetcher.fetch("http://" + ip + ":3000/getCodeB?codeA=" + codeA, new CodeBFetcher.Listener() {
                                 @Override
                                 public void onCodeB(String codeB) {
-                                    SpotConversation.getInstance().completeSSO(codeB, new OnSSOComplete() {
-                                        @Override
-                                        public void onSSOStateChanged(SSOError error) {
-                                            if (error == null) {
-                                                mLoadButton.setText("Logout");
-                                            } else {
-                                                Log.d("SSO Error", error.getDescription());
-                                            }
-                                        }
-                                    });
+                                SpotConversation.getInstance().completeSSO(codeB, new OnSSOComplete() {
+                                    @Override
+                                    public void onSSOStateChanged(SSOError error) {
+                                    if (error == null) {
+                                        mLoadButton.setText("Logout");
+                                    } else {
+                                        Log.d("SSO Error", error.getDescription());
+                                    }
+                                    }
+                                });
                                 }
                             });
                         }
@@ -157,6 +158,11 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.setCustomAnimations(im.spot.sdk.R.anim.enter_from_right, im.spot.sdk.R.anim.exit_to_left, im.spot.sdk.R.anim.enter_from_left, im.spot.sdk.R.anim.exit_to_right);
         fragmentTransaction.add(R.id.conversationHolder, fragment).addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 
