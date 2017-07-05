@@ -24,7 +24,7 @@ allprojects {
 dependencies {
 ...
 
-    compile('spot.im:web-sdk:1.1.2@aar') {
+    compile('spot.im:web-sdk:1.3@aar') {
         transitive = true;
     }
 }
