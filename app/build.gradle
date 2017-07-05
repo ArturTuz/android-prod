@@ -25,11 +25,11 @@ dependencies {
     //Enable this for ProdDebug release or ProdRelease release.
 //    compile project (':core')
 //    compile project (':recirculation')
-    compile project (':web-sdk')
+//    compile project (':web-sdk')
 
-//    compile('spot.im:web-sdk:1.1.2@aar') {
-//        transitive = true;
-//    }
+    compile('spot.im:web-sdk:1.1.2@aar') {
+        transitive = true;
+    }
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
