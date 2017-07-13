@@ -24,7 +24,7 @@ allprojects {
 dependencies {
 ...
 
-    compile('spot.im:web-sdk:1.3@aar') {
+    compile('spot.im:web-sdk:1.4@aar') {
         transitive = true;
     }
 }
@@ -60,6 +60,13 @@ SpotConversation.getInstance().preload("SPOT_ID", "POST_ID");
     }
 ```
 
+### Set Messages Count
+
+If you want to present specific amount of messages you can use the overload method:
+``` java
+    SpotConversation.getInstance().preload(SPOT_ID, POST_ID, 8);
+```
+
 ## Spot.IM IFrame Conversation
 
 ``` java
@@ -78,6 +85,11 @@ handler.setListener(new ConversationIFrameListener() {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.spotIM_Holder, fragment).addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onIFrameHeightReady(int height) {
+        Log.d("onIFrameHeightReady", "" + height);
     }
 });
 ```
