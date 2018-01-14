@@ -4,9 +4,10 @@ buildscript {
     repositories {
         jcenter()
         maven { url 'http://spot.im.artifacts.s3.amazonaws.com/android' }
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
 
@@ -19,6 +20,7 @@ allprojects {
     repositories {
         jcenter()
         maven { url 'http://spot.im.artifacts.s3.amazonaws.com/android' }
+        google()
     }
 }
 

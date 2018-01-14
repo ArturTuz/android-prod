@@ -47,7 +47,7 @@ public class SpotIMActivity extends AppCompatActivity {
 
         };
         webView.setWebViewClient(client);
-        SpotConversationIFrameHandler handler = new SpotConversationIFrameHandler();
+        SpotConversationIFrameHandler handler = new SpotConversationIFrameHandler("sp_IjnMf2Jd", "23307176");
         handler.setSpotIFrameWebviewClient(client);
         handler.setSpotIFrameWebview(webView);
         handler.setListener(new ConversationIFrameListener() {
@@ -57,6 +57,11 @@ public class SpotIMActivity extends AppCompatActivity {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.add(R.id.spotIM_Holder, fragment).addToBackStack(null);
                 fragmentTransaction.commit();
+            }
+
+            @Override
+            public void onIFrameHeightReady(int i) {
+
             }
         });
         String url = "http://ec2-54-245-13-126.us-west-2.compute.amazonaws.com/SpotIMTest.html";
