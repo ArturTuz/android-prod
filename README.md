@@ -1,6 +1,16 @@
-## About
-This is the Android sample app for Spot.IM `Conversation` with the native Android Spot.IM SDK. 
-Spot.IM SDK allows easy integrating [Spot.IM](http://www.spot.im) into a native Android application. 
+![android sdk 2x](https://user-images.githubusercontent.com/607917/35045982-4f117920-fb9e-11e7-81bd-f193a764d02b.jpg)
+
+## Welcome to the Spot.IM SDK
+Here's a sample app that shows how to use the Spot.IM SDK for Android. 
+Spot.IM SDK provides an easy integration with [Spot.IM](http://www.spot.im) into a native Android app. 
+
+## Getting started
+
+To use the SDK you will need an active Spot.IM account. If you don't have it, get one [here](http://www.spot.im).  
+You will need to know your Spot ID (which looks like 'sp_xxxxxxx'). 
+If you don't know your Spot ID, login to the [admin dashboard](https://admin.spot.im) and have a look at the URL.
+
+# Demo
 
 # Add Spot.IM SDK via Gradle
 
