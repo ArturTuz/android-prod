@@ -2,6 +2,7 @@
 
 ## Welcome to the Spot.IM SDK
 Here's a sample app that shows how to use the Spot.IM SDK for Android. 
+
 Spot.IM SDK provides an easy integration with [Spot.IM](http://www.spot.im) into a native Android app. 
 
 ## Getting started
