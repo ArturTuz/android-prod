@@ -141,3 +141,12 @@ SpotConversation.getInstance().logout(new OnSSOComplete() {
                         }
                     });
 ``` 
+
+
+## License
+
+the Spot.IM SDK is released under a custom MIT license. [See LICENSE](https://github.com/SpotIM/iOS-prod/blob/master/LICENSE) for details.
+
+## Support
+
+Feedback and inquires can be sent to love@spot.im
