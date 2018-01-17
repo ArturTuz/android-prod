@@ -1,9 +1,9 @@
 ![android sdk 2x](https://user-images.githubusercontent.com/607917/35045982-4f117920-fb9e-11e7-81bd-f193a764d02b.jpg)
 
 ## Welcome to the Spot.IM SDK
-Here's a sample app that shows how to use the Spot.IM SDK for Android. 
 
 Spot.IM SDK provides an easy integration with [Spot.IM](http://www.spot.im) into a native Android app. 
+Here's a sample app that shows how to use the Spot.IM SDK for Android. 
 
 ## Getting started
 
