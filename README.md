@@ -145,7 +145,7 @@ SpotConversation.getInstance().logout(new OnSSOComplete() {
 
 ## License
 
-the Spot.IM SDK is released under a custom MIT license. [See LICENSE](https://github.com/SpotIM/iOS-prod/blob/master/LICENSE) for details.
+the Spot.IM SDK is released under a Custom license based on MIT. [See LICENSE](https://github.com/SpotIM/iOS-prod/blob/master/LICENSE) for details.
 
 ## Support
 
