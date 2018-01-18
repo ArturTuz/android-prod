@@ -34,7 +34,7 @@ allprojects {
 dependencies {
 ...
 
-    compile('spot.im:web-sdk:1.4@aar') {
+    compile('spot.im:web-sdk:1.5.0@aar') {
         transitive = true;
     }
 }
@@ -80,7 +80,7 @@ If you want to present specific amount of messages you can use the overload meth
 ## Spot.IM IFrame Conversation
 
 ``` java
-SpotConversationIFrameHandler handler = new SpotConversationIFrameHandler();
+SpotConversationIFrameHandler handler = new SpotConversationIFrameHandler(SPOT_ID, POST_ID);
 
 // Pass your WebViewClient 
 handler.setSpotIFrameWebviewClient(client);
