@@ -6,6 +6,10 @@ Spot.IM SDK provides an easy integration with [Spot.IM](http://www.spot.im) into
 
 Here's a sample app that shows how to use the Spot.IM SDK for Android. 
 
+## Conversation Preview
+
+![screenshots - android](https://user-images.githubusercontent.com/607917/35328550-6d5063b2-0105-11e8-882f-d6a3d2bdf0f6.png)
+
 ## Getting started
 
 To use the SDK you will need an active Spot.IM account. If you don't have it, get one [here](http://www.spot.im).  
