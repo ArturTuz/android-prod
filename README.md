@@ -8,7 +8,7 @@ Here's a sample app that shows how to use the Spot.IM SDK for Android.
 
 ## Conversation Preview
 
-![screenshots - android](https://user-images.githubusercontent.com/607917/35328550-6d5063b2-0105-11e8-882f-d6a3d2bdf0f6.png)
+![screenshots - android](https://user-images.githubusercontent.com/607917/35814531-ed300950-0a9e-11e8-8c2a-5e2b66cc3605.png)
 
 ## Getting started
 
