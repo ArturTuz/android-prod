@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">Spot_IM_Prod</string>
+    <string name="app_name">SpotIMDemoApp</string>
+    <string name="enter_spot_id">Enter Spot ID</string>
+    <string name="enter_post_id">Enter Post ID</string>
+    <string name="load_spot_im">Load Spot</string>
+    <string name="dismiss_spot_im">Clear Cache</string>
+    <string name="production">Production</string>
+    <string name="staging">Staging</string>
+    <string name="title_activity_iframe">IFrameActivity</string>
+    <string name="load_iframe">Load IFrame</string>
+    <dimen name="button_width">60</dimen>
 </resources>
