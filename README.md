@@ -1,6 +1,6 @@
 ![android sdk 2x](https://user-images.githubusercontent.com/607917/35045982-4f117920-fb9e-11e7-81bd-f193a764d02b.jpg)
 
-## Welcome to the Spot.IM SDK  [![Platform](https://img.shields.io/badge/Platform-Android-blue.svg)]
+## Welcome to the Spot.IM SDK  ![Platform](https://img.shields.io/badge/Platform-Android-gray.svg) ![Version](https://img.shields.io/badge/Latest-1.6.2-blue.svg)
 
 Spot.IM SDK provides an easy integration with [Spot.IM](http://www.spot.im) into a native Android app. 
 
