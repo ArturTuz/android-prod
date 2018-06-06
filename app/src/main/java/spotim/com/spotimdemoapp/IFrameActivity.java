@@ -78,7 +78,8 @@ public class IFrameActivity extends AppCompatActivity {
         settings.setJavaScriptEnabled(true);
 
         // Setting up iFrame Handler:
-        SpotConversationIFrameHandler iFrameHandler = new SpotConversationIFrameHandler(spotID, postID);
+ //       SpotConversationIFrameHandler iFrameHandler = new SpotConversationIFrameHandler(spotID, postID);
+        SpotConversationIFrameHandler iFrameHandler = new SpotConversationIFrameHandler(spotID, null);
 //        iFrameHandler.setStaging(isStaging);
         iFrameHandler.setSpotIFrameWebview(mWebView);
         iFrameHandler.setSpotIFrameWebviewClient(client);
